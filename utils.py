@@ -46,6 +46,7 @@ def load_images(image_path, view):
     :return: Batch x Height x Width x Channels array
     """
     image = misc.imread(image_path + view + '.png')
+    # print(f"IMG SHAPE: {image.shape}")
     image = image.astype(np.float32)
     normalize_single_image(image)
     image = np.expand_dims(image, axis=0)
