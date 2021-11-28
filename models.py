@@ -16,7 +16,7 @@ def baseline(x, parameters, nodropout_probability = None, Gaussian_noise_std = N
 
 	# third conv sequence
 	next_sequence = True
-    
+
 	h = layers.all_views_max_pool(h, stride = [2, 2])
 	h = layers.all_views_conv_layer(h, 'conv3a', number_of_filters = 128, filter_size = [3, 3], stride = [1, 1])
 	h = layers.all_views_conv_layer(h, 'conv3b', number_of_filters = 128, filter_size = [3, 3], stride = [1, 1])
