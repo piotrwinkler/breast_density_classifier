@@ -58,7 +58,7 @@ def inference(parameters, verbose=True) -> int:
               '\tHeterogeneously dense (2):\t\t\t' + str(prediction_density[0, 2]) + '\n'
               '\tExtremely dense (3):\t\t\t\t' + str(prediction_density[0, 3]) + '\n')
 
-    return np.argmax(prediction_density[0])
+    return np.argmax(prediction_density[0])+1 # return density in scope 1 to 4
 
 
 if __name__ == "__main__":
@@ -88,6 +88,11 @@ if __name__ == "__main__":
     predicted_values = []
     real_values = []
 
+    predicted_values_two_classes = []
+    real_values_two_classes = []
+
+    two_classes_mapping = {1: 0, 2: 0, 3: 1, 4: 1}
+
     for dir in glob.glob(f"{EXPERIMENT_DATA_DIR}/*/"):
         parameters_["image_path"] = dir
         predicted_density = inference(parameters_)
@@ -97,10 +102,18 @@ if __name__ == "__main__":
         print(f"Predicted density: {predicted_density}")
         print(f"Real density: {real_density}\n")
 
+        print(f"Predicted density (2 cls): {two_classes_mapping[predicted_density]}")
+        print(f"Real density (2 cls): {two_classes_mapping[real_density]}\n")
+
         predicted_values.append(predicted_density)
         real_values.append(real_density)
 
+        predicted_values_two_classes.append(two_classes_mapping[predicted_density])
+        real_values_two_classes.append(two_classes_mapping[real_density])
+
     print(f"Total accuracy: {accuracy_score(real_values, predicted_values)}")
+    print(f"Total accuracy two classes: {accuracy_score(real_values_two_classes, predicted_values_two_classes)}")
+
 
 """
 python density_model_torch_custom.py histogram
